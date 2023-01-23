@@ -4,6 +4,9 @@ import "net/http"
 
 func main(){
 	http.HandleFunc("/", rootHandler)
+	http.HandleFunc("/select", selectHandler)
+	http.HandleFunc("/insert", insertHandler)
+	http.HandleFunc("/delete", deleteHandler)
 	http.ListenAndServe(":8000", nil)
 
 }
