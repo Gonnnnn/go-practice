@@ -43,8 +43,14 @@ func (manager *Manager) run() {
 	http.HandleFunc("/select", manager.getHandler)
 	http.HandleFunc("/insert", manager.insertHandler)
 	http.HandleFunc("/delete", manager.deleteHandler)
-	http.HandleFunc("/main.js", HandleStatic("main.js"))
+	http.HandleFunc("/main.js", handleStatic("main.js"))
 	http.ListenAndServe(":8000", nil)
+}
+
+func handleStatic(fileName string) func(writer http.ResponseWriter, request *http.Request) {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		http.ServeFile(writer, request, fileName)
+	}
 }
 
 func main(){
