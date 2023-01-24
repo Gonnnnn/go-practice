@@ -28,7 +28,7 @@ func newManager() *Manager {
 
 func (manager *Manager) run() {
 	http.HandleFunc("/", manager.rootHandler)
-	http.HandleFunc("/select", manager.selectHandler)
+	http.HandleFunc("/select", manager.getHandler)
 	http.HandleFunc("/insert", manager.insertHandler)
 	http.HandleFunc("/delete", manager.deleteHandler)
 	http.ListenAndServe(":8000", nil)
@@ -45,7 +45,8 @@ func (manager *Manager) rootHandler(writer http.ResponseWriter, request *http.Re
 	}
 }
 
-func (manager *Manager) selectHandler(writer http.ResponseWriter, request *http.Request) {
+func (manager *Manager) getHandler(writer http.ResponseWriter, request *http.Request) {
+	
 	writer.Write([]byte("selectHandler was called"))
 }
 
