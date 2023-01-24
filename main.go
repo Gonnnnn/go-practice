@@ -1,17 +1,28 @@
 package main
 
 import (
+	"context"
 	"html/template"
+	"log"
 	"net/http"
+
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 )
 
 type Manager struct {
 	template *template.Template
+	dynamodbClient *dynamodb.Client
 }
 
 func newManager() *Manager {
+	awsConfig, awsConfigErr := config.LoadDefaultConfig(context.TODO())
+	if awsConfigErr != nil {
+		log.Println("AWS CONFIG ERROR")
+	}
 	return &Manager{
 		template: template.Must(template.ParseGlob("html/*.html")),
+		dynamodbClient: dynamodb.NewFromConfig(awsConfig),
 	}
 }
 
