@@ -20,10 +20,11 @@ type Manager struct {
 	tableName string
 }
 
+// struct의 필드가 소문자로 시작했을때는 unmarshal을 해도 기본값이 들어갔다. 하지만 대문자로 시작하니 값이 제대로 출력된다.
 type Data struct {
-	userId int
-	userAge int
-	userName string
+	UserId int
+	UserAge int
+	UserName string
 }
 
 func newManager() *Manager {
