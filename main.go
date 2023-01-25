@@ -40,7 +40,7 @@ func newManager() *Manager {
 
 func (manager *Manager) run() {
 	http.HandleFunc("/", manager.rootHandler)
-	http.HandleFunc("/select", manager.getHandler)
+	http.HandleFunc("/get", manager.getHandler)
 	http.HandleFunc("/insert", manager.insertHandler)
 	http.HandleFunc("/delete", manager.deleteHandler)
 	http.HandleFunc("/main.js", handleStatic("main.js"))
@@ -74,11 +74,13 @@ func (manager *Manager) getHandler(writer http.ResponseWriter, request *http.Req
 
 	if getItemErr != nil {
 		log.Println("GET ITEM FAILED")
+		writer.WriteHeader(400);
 		return
 	}
 
 	if response == nil || response.Item == nil {
 		log.Println("NO REPONSE OR NO SUCH ITEM")
+		writer.WriteHeader(500);
 		return
 	}
 
@@ -86,12 +88,14 @@ func (manager *Manager) getHandler(writer http.ResponseWriter, request *http.Req
 	unmarshalErr := attributevalue.UnmarshalMap(response.Item, data)
 	if unmarshalErr != nil {
 		log.Println("GET ITEM UNMARSHAL ERROR")
+		writer.WriteHeader(500);
 		return
 	}
 
 	jsonData, jsonErr := json.Marshal(data)
 	if jsonErr != nil {
 		log.Println("JSON MARSHAL ERROR")
+		writer.WriteHeader(500);
 		return
 	}
 
